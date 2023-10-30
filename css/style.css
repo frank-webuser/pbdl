@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+
+:root {
+	--primary: #000000;
+	--secondary: #333333;
+	--primary-bg: #ffffff;
+	--secodary-bg: #dddddd;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--primary: #ffffff;
+		--secondary: #dddddd;
+		--primary-bg: #000000;
+		--secodary-bg: #333333;
+	}
+}
+
+* {
+	font-family: "Noto Serif SC", Serif;
+	color: var(--primary);
+}
+
+body {
+	background-color: var(--primary-bg);
+}
+
+table {
+	border: none;
+}
+
+tr {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: var(--secondary);
+}
+
+tr:nth-child(1) {
+	border-bottom-width: 3px;
+}
+
+td,
+th {
+	padding-left: 25px;
+}
+
+td:nth-child(1) {
+	padding-left: 0px;
+}
+
+th {
+	text-align: left;
+	font-weight: bold;
+}
+
+a {
+	text-decoration: none;
+	color: var(--primary);
+}
