@@ -23,6 +23,8 @@ Grab a copy of this thing:
 git clone https://github.com/frank-webuser/pbdl.git
 ```
 
+Then rename the `htaccess.txt` to `.htaccess`.
+
 Due to how is this thing coded as well as my bad coding skills, you **must** 
 put the files right inside a document root, and all files you wanted to display 
 **must** go inside the `share` folder.
