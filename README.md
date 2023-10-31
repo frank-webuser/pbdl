@@ -48,7 +48,7 @@ Here you can see the following items:
 - File size
 - File type
 
-Clicking on a file opens it and folder opens it.
+Clicking on a file or a folder opens it.
 Very intuitive, right?
 
 # Issues
