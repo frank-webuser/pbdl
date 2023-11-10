@@ -1,0 +1,14 @@
+:root {
+	--primary: #000000;
+	--secondary: #333333;
+	--primary-bg: #ffffff;
+	--secondary-bg: #dddddd;
+
+    --folder: #ffbf00;
+    --word: #008cff;
+    --excel: #55de00;
+    --powerpoint: #e93600;
+    --zip: #007306;
+    --photo: #682cff;
+    --png: #ff8800;
+}

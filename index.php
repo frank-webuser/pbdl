@@ -1,28 +1,28 @@
-<head>
-	<meta name="viewport" content="width=device-width; initial-scale=1">
-	<meta charset="utf-8">
-	<link type="text/css" href="/css/style.css" rel="stylesheet">
-	<link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-</head>
 <?php
+	require_once "header.php";
 	require_once "utils.php";
-	$root = $_SERVER["DOCUMENT_ROOT"];
+	require_once "popup.php";
+	/* $root = $_SERVER["DOCUMENT_ROOT"];
 	$path = $_SERVER["REQUEST_URI"];
+	if ( substr( $root, -1 ) != "/" ) {
+		$root .= "/";
+	}; */
 	/* echo $root;
 	echo "<br>";
 	echo $path;
 	echo "<br>"; */
-	$full_path = ( $root . "share" .$path );
-	if ( is_dir( $full_path ) && substr( $path, -1 ) != "/" ) {
+	//$full_path = ( $root . "share" .$path );
+	/* if ( is_dir( $full_path ) && substr( $path, -1 ) != "/" ) {
 		$path = $path . "/";
-	};
+	}; */
 	/* echo $path;
 	echo "<br>"; */
-	$full_path = ( $root . "share" .$path );
+	/* $full_path = ( $root . "share" .$path ); */
 	// echo $full_path;
-	if ( is_dir( $full_path ) ) {
-		$content = parse_folder( scandir( $full_path ) );
-		list_folder( $content );
+	$main = new Utils( $_SERVER["REQUEST_URI"] );
+	if ( $main->path_exists ) {
+		$main->parse_folder();
+		$main->list_folder();
 	} else {
 		include "404.php";
 	};

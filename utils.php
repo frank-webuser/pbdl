@@ -1,12 +1,8 @@
 <?php
-	function rs( $str ) {
-		return substr( $str, 0, -1 );
-	};
-	
 	function fa( $logo ) {
 		return '<i class="fa fa-fw fa-' . $logo . '"></i>&nbsp;';
 	};
-	
+
 	function get_filetype( $type ) {
 		$types = Array(
 			"png" => "图片",
@@ -60,10 +56,10 @@
 			return strtoupper( $type ) . "文件";
 		};
 	};
-	
+
 	function get_filelogo( $type ) {
 		$types = Array(
-			"png" => "file-photo-o",
+			"png" => "file-photo-o png",
 			"jpg" => "file-photo-o",
 			"jpeg" => "file-photo-o",
 			"bmp" => "file-photo-o",
@@ -92,9 +88,9 @@
 			"mpeg" => "file-video-o",
 			"avi" => "file-video-o",
 			"wmv" => "file-video-o",
-			"html" => "file-code-o",
-			"htm" => "file-code-o",
-			"php" => "file-code-o",
+			"html" => "file-code-o webpage",
+			"htm" => "file-code-o webpage",
+			"php" => "file-code-o webpage",
 			"css" => "file-code-o",
 			"js" => "file-code-o",
 			"py" => "file-code-o",
@@ -105,111 +101,152 @@
 			"htaccess" => "file-code-o"
 		);
 		if ( array_key_exists( $type, $types ) ) {
-			return fa( $types[ $type ] );
+			return $types[ $type ];
 		} else {
-			return fa( "file-o" );
+			return "file-o";
 		};
 	};
-	
-	function parse_filesize($num) {
-    $p = 0;
-    $format = 'B';
-    if( $num > 0 && $num < 1024 ) {
-      $p = 1;
-      return number_format($num) . ' ' . $format;
-    }
-    if( $num >= 1024 && $num < pow(2, 20) ){   
-      $p = 10;
-      $format = 'KB';
-   }
-   if ( $num >= pow(2, 20) && $num < pow(2, 30) ) {
-     $p = 20;
-     $format = 'MB';
-   }
-   if ( $num >= pow(2, 30) && $num < pow(2, 40) ) {
-     $p = 30;
-     $format = 'GB';
-   }
-   if ( $num >= pow(2, 40) && $num < pow(2, 50) ) {
-     $p = 40;
-     $format = 'TB';
-   }
-   $num /= pow(2, $p);
-   return number_format($num, 3) . ' ' . $format;
-}
 
-	function parse_folder( $content ) {
-		global $full_path;
-		global $path;
-		$result_a = Array();
-		$result_b = Array();
-		foreach ( $content as $item ) {
-			if ( $item != ".") {
-				$full_item = $full_path . $item;
-				$isdir = is_dir( $full_item );
-				$type_arr = explode( '.', $item );
-				if ( count( $type_arr ) > 1 ) {
-					$type = $type_arr[array_key_last( $type_arr )];
-				};
-				if( $isdir ) {
-					array_push( $result_a, Array( $item, "folder", 1, "-", 0 ) );
-				} else {
-					$size = parse_filesize( filesize( $full_item ) );
-					$have_ext = count( $type_arr ) - 1;
-					array_push( $result_b, Array( $item, $type, 0, $size, $have_ext ) );
+	function parse_filesize($num) {
+	$p = 0;
+	$format = 'B';
+	if( $num > 0 && $num < 1024 ) {
+	$p = 1;
+	return number_format($num) . ' ' . $format;
+	}
+	if( $num >= 1024 && $num < pow(2, 20) ){   
+	$p = 10;
+	$format = 'KB';
+	}
+	if ( $num >= pow(2, 20) && $num < pow(2, 30) ) {
+	$p = 20;
+	$format = 'MB';
+	}
+	if ( $num >= pow(2, 30) && $num < pow(2, 40) ) {
+	$p = 30;
+	$format = 'GB';
+	}
+	if ( $num >= pow(2, 40) && $num < pow(2, 50) ) {
+	$p = 40;
+	$format = 'TB';
+	}
+	$num /= pow(2, $p);
+	return number_format($num, 3) . ' ' . $format;
+	}
+
+	class Utils {
+
+		protected string $root;
+		protected string $path;
+		protected string $full_path;
+		protected array $path_content;
+		protected array $parsed_path_content;
+		public bool $path_exists;
+
+		public function __construct( $path ) {
+			$this->root = $_SERVER["DOCUMENT_ROOT"];
+			if( substr( $this->root,-1 ) !== "/") {
+				$this->root .= "/";
+			};
+			$this->path = $path;
+			if ( substr( $this->path,-1) !== "/") {
+				$this->path .= "/";
+			};
+			$this->full_path = ( $this->root . "share" .$path );
+			if ( substr( $this->full_path,-1) !== "/") {
+				$this->full_path .= "/";
+			};
+			if( is_dir( $this->full_path ) ) {
+				$this->path_exists = true;
+				$this->path_content = scandir( $this->full_path );
+			} else {
+				$this->path_exists = false;
+			}
+			// echo $this->root, PHP_EOL, $this->path, PHP_EOL, $this->full_path, PHP_EOL;
+		}
+
+		public function parse_folder() {
+			$result_a = Array();
+			$result_b = Array();
+			foreach ( $this->path_content as $item ) {
+				if ( $item != ".") {
+					$full_item = $this->full_path . $item;
+					$isdir = is_dir( $full_item );
+					$type_arr = explode( '.', $item );
+					$ext = $type_arr[array_key_last( $type_arr )];
+					if ( count( $type_arr ) > 1 ) {
+						$type = get_filetype( $ext );
+					} else {
+						$type = '文件';
+					};
+					if( $isdir ) {
+						array_push( $result_a, Array( 
+							'name' => $item,
+							'type' => "文件夹",
+							'isdir' => 1,
+							'size' => "-",
+							'icon' => 'folder'
+						) );
+					} else {
+						$size = parse_filesize( filesize( $full_item ) );
+						$have_ext = count( $type_arr ) - 1;
+						$logo = 'file-o';
+						if ( $have_ext ) {
+							$logo =	get_filelogo( $ext );
+						};
+						array_push( $result_b, Array(
+							'name' => $item,
+							'type' => $type,
+							'isdir' => 0,
+							'size' => $size,
+							'icon' => $logo
+						) );
+					};
 				};
 			};
-		};
-		return array_merge( $result_a, $result_b );
-	};
-	
-	function list_folder( $content ) {
-		// print_r( $content );
-		global $full_path;
-		global $path;
-		echo "<table><tr><th>文件名</th><th>类型</th><th>文件大小</th></tr>";
-		foreach ( $content as $items ) {
-				$item = $items[0];
-				$isdir = $items[2];
-				$prefix = "";
-				$type = $items[1];
-				echo "<tr>";
-				echo "<td>";
-				if ( !$isdir ) {
-					$prefix =  "/share";
-				};
-				if ( $item == ".." ) {
-					echo '<a href="' . $prefix . $path . $item . '">';
-					echo fa( "folder-o" ) . "上级目录";
-				} else {
-					if ( $isdir ) {
-						echo '<a href="' . $prefix . $path . $item . '">';
-						echo fa( "folder-o" );
-					} else {
-					// echo '<a href="' . $prefix . $path . $item . '" download="' . $item . '" target="view_window">';
-						echo '<a href="' . $prefix . $path . $item . '">';
-						echo get_filelogo( $type );
+			$this->parsed_path_content = array_merge( $result_a, $result_b );
+		}
+
+		public function list_folder() {
+			echo '<table border="0" cellspacing="0" cellpadding="0"><tr><th>文件名</th><th>类型</th><th>文件大小</th></tr>';
+			foreach ( $this->parsed_path_content as $items ) {
+					$item = $items['name'];
+					$isdir = $items['isdir'];
+					$prefix = "";
+					$type = $items['type'];
+					$icon = $items['icon'];
+					$size = $items['size'];
+					if ( !$isdir ) {
+						$prefix =  "/share";
 					};
-					echo $item;
-				};
-				echo "</a>";
-				echo "</td>";
-				echo "<td>";
-				if ( !$isdir ) {
-					if( $items[4] ) {
-						echo get_filetype( $type );
+					$target = '<span class="target">' . $prefix . $this->path . $item . '</span>';
+					echo "<tr>";
+					echo "<td>";
+					// var_dump( $items );
+					if ( $item == ".." ) {
+						echo $target;
+						echo fa( $icon ) . "上级目录";
 					} else {
-						echo "文件";
+						if ( $isdir ) {
+							echo $target;
+							echo fa( $icon );
+						} else {
+						// echo '<a href="' . $prefix . $path . $item . '" download="' . $item . '" target="view_window">';
+							echo $target;
+							echo fa( $icon );
+						};
+						echo '<span class="name">' . $item . '</span>';
 					};
-				} else {
-					echo "文件夹";
-				};
-				echo "</td>";
-				echo "<td>";
-				echo $items[3];
-				echo "</td>";
-				echo "</tr>";
-		};
-		echo "</table>";
+					echo "</td>";
+					echo "<td>", $type;
+					echo "</td>";
+					echo "<td>";
+					echo $size;
+					echo "</td>";
+					echo "</tr>";
+			};
+			echo "</table>";
+		}
+		
 	};
 ?>
