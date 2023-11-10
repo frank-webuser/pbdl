@@ -28,6 +28,7 @@ body {
   
 table {
 	width: 100%;
+    overflow-x: auto;
 }
 
 tr {
@@ -59,6 +60,7 @@ th {
 	padding-left: 45px;
 	border: none;
 	margin: 0;
+    white-space: nowrap;
 }
 
 td:nth-child(1) {
@@ -77,6 +79,10 @@ a {
 
 .target {
 	display: none !important;
+}
+
+.fa-download::before {
+    color: White;
 }
 
 .fa-folder::before {

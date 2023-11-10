@@ -7,6 +7,6 @@
     <link href="/css/dark.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
 	<link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-    <script src="js/jquery.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/main.js"></script>
 </head>
