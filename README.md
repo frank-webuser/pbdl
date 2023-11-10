@@ -4,8 +4,7 @@ Welcome to pbdl - That I named this within 10 seconds.
 This was inspired by [h5ai](https://github.com/lrsjng/h5ai) by lrsjng, 
 as well as [apaxy](https://github.com/AdamWhitcroft/apaxy) by oupala.
 
-Unlike these great projects, this was really really basic, far less useful, 
-and also far from complete.
+Unlike these great projects, this was really really basic, as well as far less useful.
 
 However, the simplicity also provides some benefits. It doesn't rely on 
 shell commands as h5ai, nor it relies on complex `.htaccess` rules like apaxy.
@@ -48,23 +47,29 @@ Here you can see the following items:
 - File size
 - File type
 
-Clicking on a file or a folder opens it.
-Very intuitive, right?
+Double click on a file or a folder does what you think it does --- opens it.
+
+If the file was a previewable format (photos, videos, audios, pure text/code, 
+as well as webpages), the system will open a preview. Note that the preview is 
+based on HTTP, so the file must be publicly available.
+
+If the file was a webpage, no "Download" button will be provided.
 
 # Issues
 
-- The project wasn't fully developed. Stay tuned!
 - Because of how is this thing coded, if there is a index file in a folder,
   it won't load. (Since the actual file is inside, let's say,
   `/share/dir/index.html`, but the displayed path would only be `/dir/`.)
   But maybe, this is good to somebody?
 - Putting a folder called `share` inside the actual `share` folder causes
   problems. The reason was explained above.
+- No multi language support (Chinese only.). Still learning how to intergrate i18n into php code.
+- I'm not an expert in security. Use this at your own risk (for being hacked).
 
 # Possible future updates
 
-I don't plan to make this a personal drive thing at least now, but I'm 
-learning sessions and cookies!
-
 Currently this does not have configurations files, I plan to add one so 
 users can control the behaviour easily, and change installation path.
+
+Syntax highlighting when previewing codes is also pretty good, already on my 
+to-do list. The prism.js shouldn't be hard to implement.
