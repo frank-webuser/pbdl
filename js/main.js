@@ -13,19 +13,17 @@ function main() {
         var is_webpage = logo.hasClass("webpage");
         var is_audio = logo.hasClass("fa-file-audio-o");
         var is_video = logo.hasClass("fa-file-video-o");
+        $("#download").attr( 'href', target );
+        $("#download").attr( 'download', $(this).find("span.name").eq(0).text())
         if( is_image ) {
             $(".photo-preview").show();
             $("#photo-preview").attr( 'src', target );
-            $("#download").attr( 'href', target );
-            $("#download").attr( 'download', $(this).find("span.name").eq(0).text())
             $(".dialog-bg").toggle();
         } else if( is_text && !is_webpage ) {
             $(".text-preview").show();
             $.get( target, function(data){
                 $("#text-preview").text(data);
             });
-            $("#download").attr( 'href', target );
-            $("#download").attr( 'download', $(this).find("span.name").eq(0).text())
             $(".dialog-bg").toggle();
         } else if( is_webpage ) {
             $(".webpage-preview").show();
@@ -42,7 +40,7 @@ function main() {
             $(".dialog-bg").toggle();
         } else {
             window.location.href = target;
-        }
+        };
     });
     $(".dialog-close").click(function(){
         $(".dialog-bg").toggle();

@@ -1,4 +1,5 @@
 <html lang="zh-cn">
+
 <head>
     <title><?php echo $_SERVER['SERVER_NAME']?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,3 +11,22 @@
     <script src="/js/jquery.js"></script>
     <script src="/js/main.js"></script>
 </head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <a class="header-link" href="/" title="根目录"><i class="fa fa-fw fa-home"></i></a>
+            <a class="header-link" href=".." title="上级目录"><i class="fa fa-fw fa-arrow-up"></i></a>
+            <span class="header-server-name">
+                <?php
+                    $path = $_SERVER['REQUEST_URI'];
+                    $tmp = explode('/', $path);
+                    if(strlen($path) > 1) {
+                        echo $tmp[array_key_last($tmp)];
+                    } else {
+                        echo $_SERVER['SERVER_NAME'];
+                    };
+                ?>
+            </span>
+        </div>
+        <div class="main">

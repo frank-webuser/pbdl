@@ -1,7 +1,7 @@
 <?php
-	require_once "header.php";
 	require_once "utils.php";
-	require_once "popup.php";
+	include "header.php";
+	include "popup.php";
 	/* $root = $_SERVER["DOCUMENT_ROOT"];
 	$path = $_SERVER["REQUEST_URI"];
 	if ( substr( $root, -1 ) != "/" ) {
@@ -26,4 +26,5 @@
 	} else {
 		include "404.php";
 	};
+	include "footer.php";
 ?>
