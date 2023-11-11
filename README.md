@@ -63,7 +63,6 @@ If the file was a webpage, no "Download" button will be provided.
   But maybe, this is good to somebody?
 - Putting a folder called `share` inside the actual `share` folder causes
   problems. The reason was explained above.
-- No multi language support (Chinese only.). Still learning how to intergrate i18n into php code.
 - I'm not an expert in security. Use this at your own risk (for being hacked).
 
 # Possible future updates
