@@ -1,59 +1,61 @@
 <?php
+	require_once "locale.php";
 	function fa( $logo ) {
 		return '<i class="fa fa-fw fa-' . $logo . '"></i>&nbsp;';
 	};
 
 	function get_filetype( $type ) {
 		$types = Array(
-			"png" => "图片",
-			"jpg" => "图片",
-			"jpeg" => "图片",
-			"bmp" => "图片",
-			"zip" => "归档",
-			"rar" => "归档",
-			"7z" => "归档",
-			"tar" => "归档",
-			"gz" => "归档",
-			"bz2" => "归档",
-			"xz" => "归档",
-			"txt" => "*文本文件",
-			"pdf" => "文档",
-			"doc" => "文档",
-			"docx" => "文档",
-			"xls" => "表格",
-			"xlsx" => "表格",
-			"ppt" => "演示",
-			"pptx" => "演示",
-			"mp3" => "音频",
-			"wav" => "音频",
-			"flac" => "音频",
-			"wma" => "音频",
-			"mp4" => "视频",
-			"mov" => "视频",
-			"mpg" => "视频",
-			"mpeg" => "视频",
-			"avi" => "视频",
-			"wmv" => "视频",
-			"html" => "*网页",
-			"htm" => "*网页",
-			"php" => "*动态网页",
-			"css" => "*样式表",
-			"js" => "*JavaScript源代码",
-			"py" => "*Python源代码",
-			"java" => "源代码",
-			"jar" => "归档",
-			"c" => "源代码",
-			"cpp" => "*C++源代码",
-			"htaccess" => "规则文件"
+			"png" => "photo",
+			"jpg" => "photo",
+			"jpeg" => "photo",
+			"bmp" => "photo",
+			"zip" => "archive",
+			"rar" => "archive",
+			"7z" => "archive",
+			"tar" => "archive",
+			"gz" => "archive",
+			"bz2" => "archive",
+			"xz" => "archive",
+			"txt" => "text",
+			"pdf" => "doc",
+			"doc" => "doc",
+			"docx" => "doc",
+			"xls" => "excel",
+			"xlsx" => "excel",
+			"ppt" => "ppt",
+			"pptx" => "ppt",
+			"mp3" => "audio",
+			"wav" => "audio",
+			"flac" => "audio",
+			"wma" => "audio",
+			"mp4" => "video",
+			"mov" => "video",
+			"mpg" => "video",
+			"mpeg" => "video",
+			"avi" => "video",
+			"wmv" => "video",
+			"html" => "webpage",
+			"htm" => "webpage",
+			"php" => "dwebpage",
+			"css" => "stylesheet",
+			"js" => "js",
+			"py" => "python",
+			"java" => "code",
+			"jar" => "archive",
+			"c" => "code",
+			"cpp" => "cpp",
+			"htaccess" => "htaccess"
 		);
 		if ( array_key_exists( $type, $types ) ) {
-			if ( substr( $types[ $type ], 0, 1 ) == "*" ) {
-				return substr( $types[ $type ], 1 );
+			$get_type = t( $types[ $type ] );
+			if ( substr( $get_type, 0, 1 ) == "*" ) {
+				return substr( $get_type, 1 );
 			} else {
-				return strtoupper( $type ) .  $types[ $type ];
+				return strtoupper( $type ) . ' ' .  $get_type;
 			};
 		} else {
-			return strtoupper( $type ) . "文件";
+			return strtoupper( $type ) .  ' ' . t( 'file' );
 		};
 	};
 
@@ -174,15 +176,16 @@
 					$isdir = is_dir( $full_item );
 					$type_arr = explode( '.', $item );
 					$ext = $type_arr[array_key_last( $type_arr )];
+					$tmp = t( 'folder' );
 					if ( count( $type_arr ) > 1 ) {
 						$type = get_filetype( $ext );
 					} else {
-						$type = '文件';
+						$type = t( 'file' );
 					};
 					if( $isdir ) {
 						array_push( $result_a, Array( 
 							'name' => $item,
-							'type' => "文件夹",
+							'type' => $tmp,
 							'isdir' => 1,
 							'size' => "-",
 							'icon' => 'folder'
@@ -208,7 +211,7 @@
 		}
 
 		public function list_folder() {
-			echo '<table border="0" cellspacing="0" cellpadding="0"><tr><th>文件名</th><th>类型</th><th>文件大小</th></tr>';
+			echo '<table border="0" cellspacing="0" cellpadding="0"><tr><th>' . t( 'name' ) . '</th><th>' . t( 'type' ) . '</th><th>' . t( 'size' ) . '</th></tr>';
 			foreach ( $this->parsed_path_content as $items ) {
 					$item = $items['name'];
 					$isdir = $items['isdir'];
@@ -225,7 +228,7 @@
 					// var_dump( $items );
 					if ( $item == ".." ) {
 						echo $target;
-						echo fa( $icon ) . "上级目录";
+						echo fa( $icon ) . t( 'parent' );
 					} else {
 						if ( $isdir ) {
 							echo $target;

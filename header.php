@@ -1,4 +1,5 @@
-<html lang="zh-cn">
+<?php require_once "locale.php"; ?>
+<html lang="<?php echo explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] )[0]; ?>">
 
 <head>
     <title><?php echo $_SERVER['SERVER_NAME']?></title>
@@ -15,8 +16,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <a class="header-link" href="/" title="根目录"><i class="fa fa-fw fa-home"></i></a>
-            <a class="header-link" href=".." title="上级目录"><i class="fa fa-fw fa-arrow-up"></i></a>
+            <a class="header-link" href="/" title="<?php echo t( 'root' ) ?>"><i class="fa fa-fw fa-home"></i></a>
+            <a class="header-link" href=".." title="<?php echo t( 'parent' ) ?>"><i class="fa fa-fw fa-arrow-up"></i></a>
             <span class="header-server-name">
                 <?php
                     $path = $_SERVER['REQUEST_URI'];
